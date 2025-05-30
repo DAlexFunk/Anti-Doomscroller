@@ -1,5 +1,5 @@
-chrome.runtime.onInstalled.addListener(function () {
-  chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.url) {
       chrome.tabs.sendMessage(tabId, {
         message: "tabChange",
