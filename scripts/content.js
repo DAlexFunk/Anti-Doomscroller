@@ -20,6 +20,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       console.log("test");
       if (short) short.play();
     };
+    
+    button.onfocus = () => {
+      button.blur();
+    };
+
     button.textContent = "X";
 
     // Put the button in a random position
