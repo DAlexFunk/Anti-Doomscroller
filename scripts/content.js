@@ -7,20 +7,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       (video) => video.src
     )[0];
 
-    // Create diaog and style
+    // Create diaog
     const popup = document.createElement("dialog");
     popup.id = "popup";
     popup.textContent = "STOP SCROLLING";
 
-    // Create button, style, and add the click event
+    // Create button and add the click event
     const button = document.createElement("button");
     button.id = "closePopup";
     button.onclick = () => {
       popup.close();
-      console.log("test");
       if (short) short.play();
     };
-    
+
     button.onfocus = () => {
       button.blur();
     };
