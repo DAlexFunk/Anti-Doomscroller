@@ -1,11 +1,29 @@
+let reelsFirst = true; // tracks if this is the first reel shown to the user
+
+function getVideo(site) {
+  let short;
+  if (site === "shorts") {
+    // There are 2 video elements so we find the one with the src
+    short = Array.from(document.querySelectorAll("video")).filter((video) => video.src)[0];
+  } 
+  else if (site === "reels") {
+    // Many, many reels are loaded at a time so we find the currently playing one
+    document.querySelectorAll("video").forEach((vid) => {
+      if (!vid.paused) {
+        short = vid;
+      }
+    });
+  }
+
+  return short;
+}
+
+
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // listen for messages sent from background.js
-  if (request.message === "tabChange" && request.url.includes("shorts")) {
-    // Get the short on the page
-    // There are multiple video elements but only the short has an src so we filter for that
-    const short = Array.from(document.querySelectorAll("video")).filter(
-      (video) => video.src
-    )[0];
+  if (request.message === "tabChange" && (request.url.includes("shorts") || request.url.includes("reels"))) {
+    // Get the video on the page
+    let short = getVideo(request.url.includes("shorts") ? "shorts" : "reels");
 
     // Create diaog
     const popup = document.createElement("dialog");
@@ -17,7 +35,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     button.id = "closePopup";
     button.onclick = () => {
       popup.close();
-      if (short) short.play();
+      if (short) {
+        short.play();
+      }
     };
 
     button.onfocus = () => {
@@ -38,11 +58,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     document.body.appendChild(popup);
 
     // Show the dialog
-    popup.showModal();
+    if (request.url.includes("reels") && reelsFirst) { // This stops the pop from appearing twice on reels
+      reelsFirst = false;
+    } 
+    else {
+      popup.showModal();
+    }
 
-    // Pause the short (if the short takes too long to load it may not be here so we check for it)
+    // Pause the video (if the short takes too long to load it may not be here so we check for it)
     if (short) {
       short.pause();
     }
+  } 
+  else {
+    reelsFirst = true;
   }
 });
