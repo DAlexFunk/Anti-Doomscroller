@@ -50,6 +50,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     button.style.marginLeft = `${Math.random() * 100}%`;
     button.style.marginTop = `${Math.random() * 20}%`;
 
+    // Hide the button
+    button.style.display = "none";
+
+    setTimeout(() => {
+      button.style.display = "block"
+    }, 3000);
+
     buttonContainer = document.createElement("div");
     buttonContainer.id = "buttonContainer";
     buttonContainer.appendChild(button);
