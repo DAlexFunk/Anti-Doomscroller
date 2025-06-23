@@ -28,7 +28,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     // Create diaog
     const popup = document.createElement("dialog");
     popup.id = "popup";
-    popup.textContent = "STOP SCROLLING";
+
+    popup.style.backgroundImage = `url(${chrome.runtime.getURL("media/metalBackground.jpg")})`;
+    // popup.style.backgroundSize = "100% 100%";
 
     // Create button and add the click event
     const button = document.createElement("button");
@@ -70,6 +72,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     } 
     else {
       popup.showModal();
+
+      // Play the metallic sound
+      new Audio(chrome.runtime.getURL("../media/metalhit.mp3")).play();
     }
 
     // Pause the video (if the short takes too long to load it may not be here so we check for it)
