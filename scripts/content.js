@@ -40,6 +40,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       if (short) {
         short.play();
       }
+      popup.remove();
     };
 
     button.onfocus = () => {
@@ -52,9 +53,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     button.style.marginLeft = `${Math.random() * 100}%`;
     button.style.marginTop = `${Math.random() * 20}%`;
 
-    // Hide the button
+    // Hide the button and show the button later
     button.style.display = "none";
-
     setTimeout(() => {
       button.style.display = "block"
     }, 3000);
