@@ -21,6 +21,14 @@ div#buttonContainer {
 }
 
 button#closePopup {
-    padding: 0;
-    margin-left: 100px;
+    font-family: monospace;
+    height: 20px;
+    width: 20px;
+    padding: 2px;
+    border-radius: 100%;
+}
+
+button#closePopup:hover {
+    cursor: pointer;
+    filter: brightness(0.75);
 }
