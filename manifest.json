@@ -12,7 +12,7 @@
   "background": {
     "service_worker": "scripts/background.js"
   },
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "activeTab", "scripting"],
   "content_scripts": [
     {
       "matches": ["*://www.youtube.com/*", "*://www.instagram.com/*"],
@@ -25,5 +25,9 @@
       "resources": ["media/metalBackground.jpg", "media/screw.png", "media/metalhit.mp3"],
       "matches": ["*://www.youtube.com/*", "*://www.instagram.com/*"]
     }
-  ]
+  ],
+  "action": {
+    "default_title": "Settings",
+    "default_popup": "scripts/popup.html"
+  }
 }

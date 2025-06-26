@@ -18,8 +18,7 @@ function getVideo(site) {
   return short;
 }
 
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // listen for messages sent from background.js
   if (request.message === "tabChange" && (request.url.includes("shorts") || request.url.includes("reels"))) {
     // Get the video on the page
@@ -30,7 +29,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     popup.id = "popup";
 
     popup.style.backgroundImage = `url(${chrome.runtime.getURL("media/metalBackground.jpg")})`;
-    // popup.style.backgroundSize = "100% 100%";
 
     // Create button and add the click event
     const button = document.createElement("button");
@@ -84,5 +82,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   } 
   else {
     reelsFirst = true;
+  }
+
+  if (request.message === "buttonClicked") {
+    console.log("clicked");
   }
 });
