@@ -1,4 +1,5 @@
 let reelsFirst = true; // tracks if this is the first reel shown to the user
+let dialogTextContent = "button";
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === "tabChange" && (request.url.includes("shorts") || request.url.includes("reels"))) {
     // Get the video on the page
@@ -11,8 +12,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.url.includes("reels") && reelsFirst) {
       // This stops the dialog from appearing twice on reels
       reelsFirst = false;
-    } 
-    else {
+    } else {
       dialog.showModal();
 
       // Play the metallic sound
@@ -22,15 +22,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Pause the video (if the short takes too long to load it may not be here so we check for it)
     if (short) {
       short.pause();
-    } 
-    else if (message !== "buttonClicked ") {
+    } else if (message !== "buttonClicked ") {
       // Resets the first reel if we left the reels page
       reelsFirst = true;
     }
+  }
 
-    if (request.message === "buttonClicked") {
-      console.log("clicked");
-    }
+  if (request.message === "buttonClicked") {
+    dialogTextContent = request.mode;
   }
 });
 
@@ -39,6 +38,7 @@ function createDialog(short) {
   const dialog = document.createElement("dialog");
   dialog.id = "popup";
   dialog.style.backgroundImage = `url(${chrome.runtime.getURL("media/metalBackground.jpg")})`;
+  dialog.textContent = dialogTextContent;
 
   // Create button and add the click event
   const button = document.createElement("button");
@@ -74,9 +74,10 @@ function getVideo(site) {
   let short;
   if (site === "shorts") {
     // There are 2 video elements so we find the one with the src
-    short = Array.from(document.querySelectorAll("video")).filter((video) => video.src)[0];
-  } 
-  else if (site === "reels") {
+    short = Array.from(document.querySelectorAll("video")).filter(
+      (video) => video.src
+    )[0];
+  } else if (site === "reels") {
     // Many, many reels are loaded at a time so we find the currently playing one
     document.querySelectorAll("video").forEach((vid) => {
       if (!vid.paused) {
