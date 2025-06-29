@@ -223,7 +223,7 @@ function createDialog(short) {
 
         // Next level logic
         mathData.questionsAnswered++;
-        if (mathData.questionsAnswered >= 1) {
+        if (mathData.questionsAnswered >= 10) {
           mathData.questionsAnswered = 0;
           
           mathData.level = mathData.level < 4 ? mathData.level + 1 : 4; // Increments the level to a max level of 4
