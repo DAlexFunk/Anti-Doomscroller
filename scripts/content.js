@@ -215,7 +215,7 @@ function createDialog(short) {
     button.id = "mathButton"
     button.textContent = "Submit"
     button.onclick = () => {
-      if (mathProblem.possibleAnswers.includes(answerBox.value)) {
+      if (mathProblem.possibleAnswers.includes(answerBox.value.trim())) {
         if (short) {
           short.play();
         }
