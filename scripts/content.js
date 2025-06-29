@@ -1,6 +1,9 @@
 let reelsFirst = true; // tracks if this is the first reel shown to the user
 let mode = "button";   // tracks the current mode
-let mathLevel = 0;     // tracks current level of math
+const mathData = {     // tracks information for math mode
+  level: 0,
+  questionsAnswered: 0
+};
 let mathProblems = [
   /*
   A list of lists of objects
@@ -157,6 +160,7 @@ function createDialog(short) {
   dialog.id = "popup";
   dialog.style.backgroundImage = `url(${chrome.runtime.getURL("media/metalBackground.jpg")})`;
 
+  // BUTTON MODE
   if (mode === "button") {
     // Create button and add the click event
     const button = document.createElement("button");
@@ -185,8 +189,53 @@ function createDialog(short) {
 
     dialog.appendChild(button);
   }
+
+  // MATH MODE
   else if (mode === "math") {
-    dialog.textContent = "Math Mode";
+    const container = document.createElement("div");
+    container.id = "mathContainer";
+
+    // Get current problem
+    const mathProblem = mathProblems[mathData.level][Math.floor(Math.random() * 20)];
+
+    // Create question element
+    const question = document.createElement("p");
+    question.id = "mathQuestion"
+    question.textContent = mathProblem.question
+    container.appendChild(question)
+
+    // Create answer box
+    const answerBox = document.createElement("input");
+    answerBox.id = "mathAnswer";
+    answerBox.type = "text";
+    container.appendChild(answerBox);
+
+    // Create answer buttons
+    const button = document.createElement("button");
+    button.id = "mathButton"
+    button.textContent = "Submit"
+    button.onclick = () => {
+      if (mathProblem.possibleAnswers.includes(answerBox.value)) {
+        if (short) {
+          short.play();
+        }
+        dialog.remove(); // Prevents the dialogs from polluting the dom with many hidden dialog boxes
+
+        // Next level logic
+        mathData.questionsAnswered++;
+        if (mathData.questionsAnswered >= 1) {
+          mathData.questionsAnswered = 0;
+          
+          mathData.level = mathData.level < 4 ? mathData.level + 1 : 4; // Increments the level to a max level of 4
+        }
+      }
+      else {
+        answerBox.value = "";
+      }
+    };
+
+    container.appendChild(button);
+    dialog.appendChild(container);
   }
 
   return dialog;
