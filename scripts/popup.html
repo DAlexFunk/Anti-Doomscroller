@@ -2,16 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="../styles/popup.css">
+    <link rel="stylesheet" href="../styles/popup.css" />
     <script src="./popup.js" defer></script>
   </head>
   <body>
-    <h1>Anti Doomscroller</h1>
-    <select name="modeSelect" id="modeSelect">
-      <option value="">--Select a Mode--</option>
-      <option value="button">Button</option>
-      <option value="math">Math</option>
-    </select>
-    <button>Submit</button>
+    <div class="titleContainer">
+      <img src="../media/icon-96.png" alt="Anti Doomscroller logo" />
+      <h1>Anti Doomscroller</h1>
+    </div>
+    <div class="options">
+      <select name="modeSelect" id="modeSelect">
+        <option value="">--Select a Mode--</option>
+        <option value="button">Button</option>
+        <option value="math">Math</option>
+      </select>
+      <button class="submitButton">Submit</button>
+      <div class="text">
+        <p><i>*Mode will not be saved if you do not press submit</i></p>
+        <p><i>*Must also be on Youtube or Instagram to save</i></p>
+      </div>
+    </div>
   </body>
 </html>
