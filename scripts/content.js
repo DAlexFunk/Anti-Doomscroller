@@ -135,6 +135,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     } else {
       dialog.showModal();
 
+      // Prevent scrolling while dialog is open
+      document.addEventListener("keydown", preventScroll, true);
+
       // Play the metallic sound
       new Audio(chrome.runtime.getURL("../media/metalhit.mp3")).play();
     }
@@ -166,10 +169,7 @@ function createDialog(short) {
     const button = document.createElement("button");
     button.id = "closePopup";
     button.onclick = () => {
-      if (short) {
-        short.play();
-      }
-      dialog.remove(); // Prevents the dialogs from polluting the dom with many hidden dialog boxes
+      closeDialogCommon(short, dialog);
     };
     // Defocus the button to prevent the user from just pressing enter
     button.onfocus = () => {
@@ -219,10 +219,7 @@ function createDialog(short) {
     button.textContent = "Submit"
     button.onclick = () => {
       if (mathProblem.possibleAnswers.includes(answerBox.value.trim())) {
-        if (short) {
-          short.play();
-        }
-        dialog.remove(); // Prevents the dialogs from polluting the dom with many hidden dialog boxes
+        closeDialogCommon(short, dialog);
 
         // Next level logic
         mathData.questionsAnswered++;
@@ -261,4 +258,21 @@ function getVideo(site) {
   }
 
   return short;
+}
+
+function preventScroll(evt) {
+  const blockedKeys = ['ArrowUp', 'ArrowDown'];
+  if (blockedKeys.includes(evt.key)) {
+    evt.stopImmediatePropagation();
+    evt.preventDefault();
+  }
+}
+
+function closeDialogCommon(short, dialog) {
+  if (short) {
+    short.play();
+  }
+  
+  dialog.remove(); // Prevents the dialogs from polluting the dom with many hidden dialog boxes
+  document.removeEventListener("keydown", preventScroll, true); // Allows scrolling when dialog is closed
 }
