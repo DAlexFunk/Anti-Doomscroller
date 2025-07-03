@@ -54,7 +54,7 @@ p#mathQuestion {
 
 input#mathAnswer {
     flex: 0;
-    max-width: 30%;
+    width: 60%;
 }
 
 button#mathButton {

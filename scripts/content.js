@@ -208,6 +208,9 @@ function createDialog(short) {
     const answerBox = document.createElement("input");
     answerBox.id = "mathAnswer";
     answerBox.type = "text";
+    if (mathData.level >= 3) {
+      answerBox.placeholder = "Enter all answers as a comma separated list...";
+    }
     container.appendChild(answerBox);
 
     // Create answer buttons
