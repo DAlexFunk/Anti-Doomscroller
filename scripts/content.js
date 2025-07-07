@@ -277,8 +277,11 @@ function createDialog(short) {
     unscrButton.id = "unscrButton";
     unscrButton.textContent = "Submit";
     unscrButton.onclick = () => {
-      if (textBox.value === word) {
+      if (textBox.value.toLowerCase().trim() === word) {
         closeDialogCommon(short, dialog);
+      }
+      else {
+        textBox.value = "";
       }
     }
     container.appendChild(unscrButton);
