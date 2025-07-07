@@ -1,10 +1,10 @@
 let reelsFirst = true; // tracks if this is the first reel shown to the user
 let mode = "button";   // tracks the current mode
-const mathData = {     // tracks information for math mode
+let mathData = {     // tracks information for math mode
   level: 0,
   questionsAnswered: 0
 };
-let mathProblems = [
+const mathProblems = [
   /*
   A list of lists of objects
   Each sublist is a different level of problems
@@ -120,6 +120,21 @@ let mathProblems = [
    {question: "(x - 99)(x - 9900) = 0", possibleAnswers: ["99,9900", "99, 9900", "9900,99","9900, 99"]}],
 ];
 
+const unscrambleWordList = [
+  "crisp", "bucket", "mystery", "goblin", "arcade", "sneeze", "lizard", "jumble", "orbit", "punch",
+  "twig", "hazard", "quartz", "flip", "engine", "marble", "sphinx", "velvet", "drift", "toxic",
+  "plume", "snatch", "quirky", "zebra", "plank", "nugget", "blaze", "vortex", "scoff", "bunker",
+  "gadget", "moist", "sketch", "churn", "crypt", "lunar", "basil", "gnome", "yacht", "thump",
+  "wreck", "swoop", "crayon", "vivid", "grasp", "mimic", "blunt", "plush", "sting", "whisk",
+  "oxide", "banter", "croak", "jungle", "glint", "fraud", "hatch", "spook", "dwarf", "clash",
+  "prism", "brisk", "slump", "hoard", "grind", "scoop", "vault", "spurt", "bribe", "kneel",
+  "slosh", "creek", "nudge", "twirl", "crack", "drone", "clamp", "forge", "zesty", "pearl",
+  "quill", "hurry", "swamp", "cling", "pouch", "smirk", "glide", "snarl", "squint", "cabin",
+  "blurt", "joust", "glove", "trunk", "gravy", "chant", "quirk", "flick", "slant", "torch"
+];
+
+
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.message === "tabChange" && (request.url.includes("shorts") || request.url.includes("reels"))) {
     // Get the video on the page
@@ -132,7 +147,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.url.includes("reels") && reelsFirst) {
       // This stops the dialog from appearing twice on reels
       reelsFirst = false;
-    } else {
+    } 
+    else {
       dialog.showModal();
 
       // Prevent scrolling while dialog is open
@@ -145,7 +161,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Pause the video (if the short takes too long to load it may not be here so we check for it)
     if (short) {
       short.pause();
-    } else if (message !== "buttonClicked ") {
+    } 
+    else if (message !== "buttonClicked ") {
       // Resets the first reel if we left the reels page
       reelsFirst = true;
     }
@@ -196,7 +213,7 @@ function createDialog(short) {
     container.id = "mathContainer";
 
     // Get current problem
-    const mathProblem = mathProblems[mathData.level][Math.floor(Math.random() * 20)];
+    const mathProblem = mathProblems[mathData.level][randomNumber(0, 20)];
 
     // Create question element
     const question = document.createElement("p");
@@ -238,7 +255,62 @@ function createDialog(short) {
     dialog.appendChild(container);
   }
 
+  // WORD UNSCRAMBLE
+  else if (mode === "unscramble") {
+    const word = unscrambleWordList[randomNumber(0,99)];
+    const scrambled = scrambleWord(word);
+
+    const container = document.createElement("div");
+    container.id = "unscrContainer";
+
+    const docWord = document.createElement("p");
+    docWord.id = "unscrWord"
+    docWord.textContent = scrambled;
+    container.appendChild(docWord);
+
+    const textBox = document.createElement("input");
+    textBox.type = "text";
+    textBox.id = "unscrAnswer"
+    container.appendChild(textBox);
+
+    const unscrButton = document.createElement("button");
+    unscrButton.id = "unscrButton";
+    unscrButton.textContent = "Submit";
+    unscrButton.onclick = () => {
+      if (textBox.value === word) {
+        closeDialogCommon(short, dialog);
+      }
+    }
+    container.appendChild(unscrButton);
+
+    dialog.appendChild(container);
+  }
+
   return dialog;
+}
+
+// Generates a random number between min inclusive and max inclusive
+function randomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Takes a word and scrambles it without modifying the original word
+function scrambleWord(word) {
+  let letters = word.split(""); 
+
+  // Fisher-Yates shuffle
+  let currentIndex = letters.length;
+  while (currentIndex > 0) {
+    // Get the random index
+    let randomIndex = randomNumber(0, currentIndex);
+
+    // Swap current with random
+    [letters[currentIndex], letters[randomIndex]] = [letters[randomIndex], letters[currentIndex]];
+
+    currentIndex--;    
+  }
+
+  return letters.join("");
 }
 
 function getVideo(site) {
