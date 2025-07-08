@@ -289,6 +289,65 @@ function createDialog(short) {
     dialog.appendChild(container);
   }
 
+  // REACTION TIME
+  else if (mode === "reaction") {
+    const reactionCutoff = 250;
+
+    const bg = document.createElement("div");
+    bg.id = "reactBg";
+    bg.className = "red";
+
+    const text = document.createElement("div");
+    text.id = "reactText";
+
+    ["Click the button as fast as possible when the background turns green",
+      `Must beat a ${reactionCutoff}ms reaction time to close`,
+      "Click start to begin"
+    ].forEach((paragraph) => {
+      const p = document.createElement("p");
+      p.textContent = paragraph;
+      text.appendChild(p);
+    })
+
+    bg.appendChild(text);
+
+    const button = document.createElement("button");
+    button.textContent = "Start";
+    button.onclick = () => {
+      text.remove();
+      button.textContent = "";
+
+      button.onclick = () => {};
+
+      setTimeout(() => {
+        bg.className = "green";
+        let t1 = new Date();
+
+        button.onclick = () => {
+          let t2 = new Date();
+          let reactionTime = t2.getTime() - t1.getTime()
+          
+          const reaction = document.createElement("p");
+          reaction.textContent = `${reactionTime} ms`;
+          bg.appendChild(reaction);
+
+          button.textContent = reactionTime <= reactionCutoff ? "Close" : "Try Again";
+          button.onclick = () => {
+            closeDialogCommon(short, dialog);
+            if (reactionTime > reactionCutoff) {
+              const dialog = createDialog(short);
+              document.body.appendChild(dialog);
+              dialog.showModal();
+              short.pause();
+            }
+          }
+        }
+      }, randomNumber(3000, 7000))
+    }
+    bg.appendChild(button);
+
+    dialog.appendChild(bg);
+  }
   return dialog;
 }
 

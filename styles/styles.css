@@ -66,3 +66,16 @@ button#unscrButton {
   max-width: 10%;
   margin-top: 10px;
 }
+
+div#reactBg button{
+  min-height: 50px;
+  min-width: 100px;
+}
+
+div.red {
+  background-color: red;
+}
+
+div.green {
+  background-color: lime;
+}
