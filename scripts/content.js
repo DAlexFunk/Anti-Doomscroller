@@ -317,12 +317,10 @@ function createDialog(short) {
       text.remove();
       button.textContent = "";
 
-      button.onclick = () => {};
-
-      setTimeout(() => {
+      const timeoutID = setTimeout(() => {
         bg.className = "green";
         let t1 = new Date();
-
+        
         button.onclick = () => {
           let t2 = new Date();
           let reactionTime = t2.getTime() - t1.getTime()
@@ -331,7 +329,7 @@ function createDialog(short) {
           reaction.id = "reactionTime";
           reaction.textContent = `${reactionTime} ms`;
           bg.appendChild(reaction);
-
+          
           button.textContent = reactionTime <= reactionCutoff ? "Close" : "Try Again";
           button.onclick = () => {
             closeDialogCommon(short, dialog);
@@ -344,6 +342,24 @@ function createDialog(short) {
           }
         }
       }, randomNumber(3000, 7000))
+
+      button.onclick = () => {
+        clearTimeout(timeoutID);
+
+        const tooFast = document.createElement("p");
+        tooFast.id = "tooFastText";
+        tooFast.textContent = `You clicked too fast`;
+        bg.appendChild(tooFast);
+
+        button.textContent = "Try Again";
+        button.onclick = () => {
+          closeDialogCommon(short, dialog);
+          const newDialog = createDialog(short);
+          document.body.appendChild(newDialog);
+          newDialog.showModal();
+          short.pause();
+        }
+      };
     }
     bg.appendChild(button);
 

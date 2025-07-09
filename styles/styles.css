@@ -91,12 +91,20 @@ div#reactBg button {
   width: max(100px, 10%);
 }
 
-p#reactionTime {
-  font-size: 84px;
+p#reactionTime,
+p#tooFastText {
   position: absolute;
   top: 25%;
   left: 50%;
   transform: translate(-50%, 0);
+}
+
+p#reactionTime {
+  font-size: 84px;
+}
+
+p#tooFastText {
+  font-size: 24px;
 }
 
 div.red {
