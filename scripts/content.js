@@ -365,6 +365,43 @@ function createDialog(short) {
 
     dialog.appendChild(bg);
   }
+
+  // NUMBER GUESSER
+  else if (mode === "numberGuess") {
+    const rangeLow = 1;
+    const rangeHigh = 25;
+
+    const number = randomNumber(rangeLow, rangeHigh);
+
+    const container = document.createElement("div");
+    container.id = "guessContainer";
+
+    const question = document.createElement("p");
+    question.id = "guessText";
+    question.textContent = `What number am I thinking of from ${rangeLow}-${rangeHigh}`
+    container.appendChild(question);
+
+    const input = document.createElement("input");
+    input.id = "guessInput";
+    input.type = "number";
+    container.appendChild(input);
+
+    const button = document.createElement("button");
+    button.id = "guessButton";
+    button.textContent = "Submit";
+    button.onclick = () => {
+      if (input.valueAsNumber === number) {
+        closeDialogCommon(short, dialog);
+      }
+      else {
+        input.value = "";
+      }
+    } 
+    container.appendChild(button);
+
+    dialog.appendChild(container);
+  }
+
   return dialog;
 }
 
