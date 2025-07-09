@@ -328,6 +328,7 @@ function createDialog(short) {
           let reactionTime = t2.getTime() - t1.getTime()
           
           const reaction = document.createElement("p");
+          reaction.id = "reactionTime";
           reaction.textContent = `${reactionTime} ms`;
           bg.appendChild(reaction);
 
