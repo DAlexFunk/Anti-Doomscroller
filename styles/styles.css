@@ -35,7 +35,8 @@ button#closePopup:hover {
 }
 
 div#mathContainer,
-div#unscrContainer {
+div#unscrContainer,
+div#guessContainer {
   height: 100%;
 
   display: flex;
@@ -44,7 +45,8 @@ div#unscrContainer {
 }
 
 p#mathQuestion,
-p#unscrWord {
+p#unscrWord,
+p#guessText {
   font-size: 84px;
   max-height: 50%;
   flex: 1;
@@ -54,14 +56,20 @@ p#unscrWord {
   align-items: center;
 }
 
+p#guessText {
+  font-size: 32px;
+}
+
 input#mathAnswer,
-input#unscrAnswer {
+input#unscrAnswer,
+input#guessInput {
   flex: 0;
   width: 60%;
 }
 
 button#mathButton,
-button#unscrButton {
+button#unscrButton,
+button#guessButton {
   flex: 0;
   max-width: 10%;
   margin-top: 10px;
