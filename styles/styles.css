@@ -3,6 +3,7 @@ dialog#popup:not([open]) {
 }
 
 dialog#popup {
+  color: black;
   padding: 0;
   height: 50vh;
   width: 50vw;
@@ -21,8 +22,12 @@ div#buttonContainer {
 }
 
 button#closePopup {
+  color: inherit;
   font-family: monospace;
+  background-color: #efeff3;
+  border-color: black;
   font-size: 8px;
+  line-height: normal;
   height: 12px;
   width: 12px;
   padding: 0px;
@@ -37,6 +42,8 @@ button#closePopup:hover {
 div#mathContainer,
 div#unscrContainer,
 div#guessContainer {
+  margin: 0;
+  padding: 0;
   height: 100%;
 
   display: flex;
@@ -47,6 +54,9 @@ div#guessContainer {
 p#mathQuestion,
 p#unscrWord,
 p#guessText {
+  color: inherit;
+  margin: 0;
+  padding: 0;
   font-size: 84px;
   max-height: 50%;
   flex: 1;
@@ -63,6 +73,9 @@ p#guessText {
 input#mathAnswer,
 input#unscrAnswer,
 input#guessInput {
+  color: inherit;
+  margin: 0;
+  padding: 0;
   flex: 0;
   width: 60%;
 }
@@ -70,6 +83,10 @@ input#guessInput {
 button#mathButton,
 button#unscrButton,
 button#guessButton {
+  color: inherit;
+  background-color: #efeff3;
+  margin: 0;
+  padding: 2px 8px;
   flex: 0;
   max-width: 10%;
   margin-top: 10px;
@@ -77,6 +94,8 @@ button#guessButton {
 
 div#reactBg {
   height: 100%;
+  margin: 0;
+  padding: 0;
 
   display: flex;
   flex-direction: column;
@@ -84,15 +103,23 @@ div#reactBg {
 }
 
 div#reactBg #reactText {
+  color: inherit;
+  margin: 0;
+  padding: 0;
   margin-top: 24px;
 }
 
 div#reactBg p {
+  color: inherit;
   text-align: center;
+  margin: 0;
+  padding: 0;
   margin-top: 12px;
 }
 
 div#reactBg button {
+  color: inherit;
+  background-color: #efeff3;
   box-sizing: border-box;
   margin: auto 0 64px 0;
   min-height: 50px;
@@ -101,18 +128,27 @@ div#reactBg button {
 
 p#reactionTime,
 p#tooFastText {
+  color: inherit;
   position: absolute;
+  margin: 0;
+  padding: 0;
   top: 25%;
   left: 50%;
   transform: translate(-50%, 0);
 }
 
 p#reactionTime {
+  color: inherit;
   font-size: 84px;
+  margin: 0;
+  padding: 0;
 }
 
 p#tooFastText {
+  color: inherit;
   font-size: 24px;
+  margin: 0;
+  padding: 0;
 }
 
 div.red {
