@@ -92,6 +92,14 @@ button#guessButton {
   margin-top: 10px;
 }
 
+button#mathButton:hover,
+button#unscrButton:hover,
+button#guessButton:hover,
+div#reactBg button:hover {
+  cursor: pointer;
+  filter: brightness(0.75);
+}
+
 div#reactBg {
   height: 100%;
   margin: 0;
